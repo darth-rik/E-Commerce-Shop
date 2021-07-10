@@ -7,7 +7,9 @@
 	"scripts": {
 		"server": "nodemon server",
 		"client": "npm start --prefix client",
-		"dev": "concurrently \"npm run server\" \" npm run client\""
+		"dev": "concurrently \"npm run server\" \" npm run client\"",
+		"data:import": "node seeder",
+		"data:destroy": "node seeder -d"
 	},
 	"keywords": [],
 	"author": "",
@@ -17,6 +19,7 @@
 		"nodemon": "^2.0.10"
 	},
 	"dependencies": {
+		"bcryptjs": "^2.4.3",
 		"dotenv": "^10.0.0",
 		"express": "^4.17.1",
 		"mongoose": "^5.13.2"
