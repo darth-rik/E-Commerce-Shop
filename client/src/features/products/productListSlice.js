@@ -35,7 +35,6 @@ const productListSlice = createSlice({
 		[loadProducts.rejected]: (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
-			state.products = [];
 		},
 	},
 });
