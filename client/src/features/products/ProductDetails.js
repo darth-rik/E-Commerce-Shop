@@ -7,7 +7,7 @@ const ProductDetails = ({ product }) => {
 	return (
 		<Row>
 			<Col md={6}>
-				<Image src={product.image} fluid />
+				<Image src={product.image} fluid thumbnail={true} />
 			</Col>
 			<Col md={3}>
 				<ListGroup variant='flush'>
@@ -20,8 +20,8 @@ const ProductDetails = ({ product }) => {
 							text={`${product.numReviews} reviews`}
 						/>
 					</ListGroup.Item>
-					<ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-					<ListGroup.Item>Description: {product.description}</ListGroup.Item>
+					<ListGroup.Item as='h4'> ${product.price}</ListGroup.Item>
+					<ListGroup.Item> {product.description}</ListGroup.Item>
 				</ListGroup>
 			</Col>
 			<Col md={3}>

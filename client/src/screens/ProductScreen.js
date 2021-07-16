@@ -6,6 +6,7 @@ import { getProductDetails } from "../features/products/productDetailsSlice";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import ProductDetails from "../features/products/ProductDetails";
+import { Container } from "react-bootstrap";
 
 const ProductScreen = ({ match }) => {
 	const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const ProductScreen = ({ match }) => {
 	}, [dispatch, match]);
 
 	return (
-		<>
+		<Container>
 			<Link className='btn btn-dark my-3' to='/'>
 				Go Back
 			</Link>
@@ -30,7 +31,7 @@ const ProductScreen = ({ match }) => {
 			) : (
 				<ProductDetails product={product} />
 			)}
-		</>
+		</Container>
 	);
 };
 

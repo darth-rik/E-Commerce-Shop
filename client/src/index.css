@@ -9,3 +9,86 @@ h3 {
 .rating span {
 	margin: 0.1rem;
 }
+
+.list-group-item {
+	background-color: transparent;
+	border: none;
+}
+
+/* carousel */
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
+	height: 90vh;
+	position: relative;
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+	background-color: rgba(0, 0, 0);
+}
+
+.carousel-caption {
+	color: #000;
+	position: absolute;
+	left: 15%;
+	top: 40%;
+	text-align: left;
+}
+
+.carousel-caption h1 {
+	font-size: 4rem;
+}
+
+@media screen and (max-width: 800px) {
+	.carousel-caption {
+		text-align: center;
+	}
+
+	.carousel-caption h1 {
+		font-size: 2rem;
+	}
+}
+
+@media screen and (min-width: 812px) and (max-width: 1000px) {
+	.carousel-item-next,
+	.carousel-item-prev,
+	.carousel-item.active {
+		height: 80vh;
+	}
+
+	.carousel-caption h1 {
+		font-size: 2rem;
+	}
+}
+
+.carousel-item {
+	position: relative;
+}
+
+.carousel img {
+	width: 100%;
+}
+
+.carousel a {
+	margin: 0 auto;
+	z-index: 2000;
+}
+@media (max-width: 900px) {
+	.carousel-caption h2 {
+		font-size: 2.5vw;
+	}
+}
+
+.product-category {
+	display: flex;
+	list-style: none;
+	flex-wrap: wrap;
+	padding-left: 0;
+}
+
+.product-category > li {
+	margin-right: 2rem;
+	margin-bottom: 1rem;
+	cursor: pointer;
+}
