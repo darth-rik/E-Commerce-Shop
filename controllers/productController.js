@@ -29,3 +29,13 @@ export const getProductById = async (req, res) => {
 		res.status(404).json({ message: error.message });
 	}
 };
+
+export const getTrendingProducts = async (req, res) => {
+	try {
+		const products = await Product.find({}).sort({ rating: -1 }).limit(5);
+
+		res.json(products);
+	} catch (error) {
+		res.status(404).json({ message: "Server Error" });
+	}
+};

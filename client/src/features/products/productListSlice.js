@@ -16,6 +16,22 @@ export const getProducts = createAsyncThunk(
 		}
 	}
 );
+
+export const getTopProducts = createAsyncThunk(
+	"productList/getProducts",
+	async (category, { rejectWithValue }) => {
+		try {
+			const { data } = await axios.get("api/products/top");
+			return data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message
+			);
+		}
+	}
+);
 const productListSlice = createSlice({
 	name: "productList",
 	initialState: {
@@ -33,6 +49,18 @@ const productListSlice = createSlice({
 			state.products = action.payload;
 		},
 		[getProducts.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
+
+		[getTopProducts.pending]: (state) => {
+			state.loading = true;
+		},
+		[getTopProducts.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.products = action.payload;
+		},
+		[getTopProducts.rejected]: (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
 		},

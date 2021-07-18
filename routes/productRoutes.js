@@ -4,7 +4,10 @@ const router = express.Router();
 import {
 	getProductsByCategory,
 	getProductById,
+	getTrendingProducts,
 } from "../controllers/productController.js";
+
+router.get("/top", getTrendingProducts);
 
 router.route("/").get(getProductsByCategory);
 
