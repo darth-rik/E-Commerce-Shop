@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import AllProductsScreen from "./screens/AllProductsScreen";
 
 const App = () => {
 	return (
@@ -12,6 +13,7 @@ const App = () => {
 			<Header />
 			<main>
 				<Route exact path='/' component={HomeScreen} />
+				<Route exact path='/products' component={AllProductsScreen} />
 				<Route path='/product/:id' component={ProductScreen} />
 			</main>
 			<Footer />

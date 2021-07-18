@@ -24,38 +24,22 @@ const HomeScreen = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(loadProducts());
-	}, [dispatch]);
+	// useEffect(() => {
+	// 	dispatch(loadProducts());
+	// }, [dispatch]);
 
 	return (
 		<>
 			<CarouselEffect />
 			<Container>
 				<h1 className='mb-3'>Trending this Week</h1>
-				{/* <Row>
-					<Col md='6' lg='8'>
-						<ul className='product-category'>
-							<li>All Products</li>
-							<li>Men's Clothing</li>
-							<li>Women's Cloth</li>
-							<li>Electronics</li>
-							<li>Jewellery</li>
-						</ul>
-					</Col>
-					<Col>
-						<InputGroup size='sm'>
-							<FormControl placeholder='Search...' />
-							<Button>Search</Button>
-						</InputGroup>
-					</Col>
-				</Row> */}
+
 				{loading ? (
 					<Loader />
 				) : error ? (
 					<Message variant='danger'>{error}</Message>
 				) : (
-					<ProductList products={products} />
+					<ProductList products={[]} />
 				)}
 			</Container>
 		</>
