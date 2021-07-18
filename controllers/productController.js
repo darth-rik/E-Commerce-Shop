@@ -1,8 +1,10 @@
 import Product from "../models/productModel.js";
 
-export const getProducts = async (req, res) => {
+export const getProductsByCategory = async (req, res) => {
 	try {
-		const products = await Product.find({});
+		const category = req.query.category;
+
+		const products = await Product.find({ category });
 
 		res.json(products);
 	} catch (error) {
