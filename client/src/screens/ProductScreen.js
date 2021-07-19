@@ -8,7 +8,7 @@ import Message from "../components/Message";
 import ProductDetails from "../features/products/ProductDetails";
 import { Container } from "react-bootstrap";
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ match, history }) => {
 	const dispatch = useDispatch();
 
 	const { loading, error, product } = useSelector(
@@ -29,7 +29,11 @@ const ProductScreen = ({ match }) => {
 			) : error ? (
 				<Message variant='danger'>{error}</Message>
 			) : (
-				<ProductDetails product={product} />
+				<ProductDetails
+					id={match.params.id}
+					history={history}
+					product={product}
+				/>
 			)}
 		</Container>
 	);

@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
+import {
+	Row,
+	Col,
+	Image,
+	ListGroup,
+	Card,
+	Button,
+	Form,
+} from "react-bootstrap";
 import Rating from "../../components/Rating";
 
-const ProductDetails = ({ product }) => {
+const ProductDetails = ({ product, history, id }) => {
+	const [qty, setQty] = useState(0);
+
+	const addToCart = () => {
+		history.push(`/cart/${id}?qty=${qty}`);
+	};
 	return (
 		<Row>
 			<Col md={6}>
@@ -45,8 +58,32 @@ const ProductDetails = ({ product }) => {
 								</Col>
 							</Row>
 						</ListGroup.Item>
+
+						{product.countInStock > 0 && (
+							<ListGroup.Item>
+								<Row>
+									<Col>Qty:</Col>
+									<Col>
+										<Form.Control
+											className='form-select'
+											as='select'
+											value={qty}
+											onChange={(e) => setQty(e.target.value)}
+										>
+											{[...Array(product.countInStock).keys()].map((key) => (
+												<option key={key + 1}>{key + 1}</option>
+											))}
+										</Form.Control>
+									</Col>
+								</Row>
+							</ListGroup.Item>
+						)}
 						<ListGroup.Item className='d-grid gap-2'>
-							<Button type='button' disabled={product.countInStock === 0}>
+							<Button
+								onClick={addToCart}
+								type='button'
+								disabled={product.countInStock === 0}
+							>
 								Add To Cart
 							</Button>
 						</ListGroup.Item>
