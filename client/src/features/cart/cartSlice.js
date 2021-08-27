@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getState } from "../../store";
 
 export const addItemsToCart = createAsyncThunk(
 	"handleCart/addItems",
@@ -31,6 +30,7 @@ const handleCart = createSlice({
 	reducers: {
 		removeItem: (state, action) => {
 			state.cartItems.splice(action.payload, 1);
+			localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
 		},
 	},
 	extraReducers: {
@@ -38,18 +38,16 @@ const handleCart = createSlice({
 		[addItemsToCart.fulfilled]: (state, action) => {
 			const item = action.payload;
 			const itemExists = state.cartItems.find(
-				(x) => x.product === item.product
+				(cartItem) => cartItem.product === item.product
 			);
 
 			if (itemExists) {
-				return {
-					cartItems: state.cartItems.map((cartItem) =>
-						cartItem.product === itemExists.product ? item : cartItem
-					),
-				};
+				state.cartItems[state.cartItems.indexOf(itemExists)] = item;
 			} else {
 				state.cartItems.push(item);
 			}
+
+			localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
 		},
 	},
 });

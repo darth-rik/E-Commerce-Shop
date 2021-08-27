@@ -32,6 +32,7 @@ const CartScreen = ({ match, location, history }) => {
 				})
 			);
 		}
+		history.push("/cart");
 	}, [dispatch, productId, qty]);
 
 	const checkOut = () => {};
