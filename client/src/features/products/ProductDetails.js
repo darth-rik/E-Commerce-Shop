@@ -12,7 +12,7 @@ import {
 import Rating from "../../components/Rating";
 
 const ProductDetails = ({ product, history, id }) => {
-	const [qty, setQty] = useState(0);
+	const [qty, setQty] = useState(1);
 
 	const addToCart = () => {
 		history.push(`/cart/${id}?qty=${qty}`);

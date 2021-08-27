@@ -1,8 +1,10 @@
 import React from "react";
 import { Navbar, Nav, Container, Badge } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+	const { cartItems } = useSelector((state) => state.cart);
 	return (
 		<header>
 			<Navbar
@@ -22,7 +24,7 @@ const Header = () => {
 							<LinkContainer to='/cart'>
 								<Nav.Link>
 									<i className='fas fa-shopping-cart'> </i>{" "}
-									<Badge style={{ backgroundColor: "red" }}>9</Badge>
+									<Badge className='badge-notify'>{cartItems.length}</Badge>
 								</Nav.Link>
 							</LinkContainer>
 							<LinkContainer to='/login'>

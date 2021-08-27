@@ -8,7 +8,7 @@ const ProductCarousel = () => {
 	return (
 		<Carousel variant='dark' indicators={false} className='mb-5'>
 			<Carousel.Item>
-				<img src={Men} alt='' />
+				<Image fluid src={Men} alt='' />
 				<Carousel.Caption>
 					<ListGroup variant='flush'>
 						<ListGroup.Item as='h2'>Men's Collection</ListGroup.Item>
