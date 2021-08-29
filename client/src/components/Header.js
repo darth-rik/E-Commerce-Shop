@@ -1,10 +1,18 @@
 import React from "react";
-import { Navbar, Nav, Container, Badge } from "react-bootstrap";
+import { Navbar, Nav, Container, Badge, NavDropdown } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { userLogout } from "../features/userAuth/userAuthSlice";
 
 const Header = () => {
+	const dispatch = useDispatch();
+
 	const { cartItems } = useSelector((state) => state.cart);
+	const { userInfo } = useSelector((state) => state.userAuth);
+
+	const logout = () => {
+		dispatch(userLogout());
+	};
 	return (
 		<header>
 			<Navbar
@@ -27,11 +35,22 @@ const Header = () => {
 									<Badge className='badge-notify'>{cartItems.length}</Badge>
 								</Nav.Link>
 							</LinkContainer>
-							<LinkContainer to='/login'>
-								<Nav.Link>
-									<i className='fas fa-user'></i> Login
-								</Nav.Link>
-							</LinkContainer>
+							{userInfo ? (
+								<NavDropdown
+									title={`Hello,${userInfo.name.split(" ").slice(0, 1).join()}`}
+								>
+									<LinkContainer to='/profile'>
+										<NavDropdown.Item>Profile</NavDropdown.Item>
+									</LinkContainer>
+									<NavDropdown.Item onClick={logout}> Logout</NavDropdown.Item>
+								</NavDropdown>
+							) : (
+								<LinkContainer to='/login'>
+									<Nav.Link>
+										<i className='fas fa-user'></i> Login
+									</Nav.Link>
+								</LinkContainer>
+							)}
 						</Nav>
 					</Navbar.Collapse>
 				</Container>
