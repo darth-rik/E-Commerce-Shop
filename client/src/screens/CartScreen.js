@@ -35,7 +35,9 @@ const CartScreen = ({ match, location, history }) => {
 		history.push("/cart");
 	}, [dispatch, productId, qty]);
 
-	const checkOut = () => {};
+	const checkOut = () => {
+		history.push("/login?redirect=shipping");
+	};
 
 	return (
 		<Container className='mt-4'>

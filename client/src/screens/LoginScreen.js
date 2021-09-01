@@ -15,9 +15,7 @@ const LoginScreen = ({ location, history }) => {
 
 	const { loading, error, userInfo } = useSelector((state) => state.userAuth);
 
-	const redirect = location.search
-		? Number(new URLSearchParams(location.search).get("qty"))
-		: "/";
+	const redirect = location.search ? location.search.split("=")[1] : "/";
 
 	useEffect(() => {
 		if (userInfo) {

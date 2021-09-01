@@ -45,6 +45,37 @@ export const getUserProfile = async (req, res) => {
 	}
 };
 
+export const updateUserProfile = async (req, res) => {
+	try {
+		const user = await User.findById(req.user.id);
+
+		if (user) {
+			user.name = req.body.name || user.name;
+			user.email = req.body.email || user.email;
+
+			if (req.body.password) {
+				user.password = req.body.password;
+			}
+
+			const updatedUser = await user.save();
+
+			res.json({
+				id: updatedUser._id,
+				name: updatedUser.name,
+				email: updatedUser.email,
+				isAdmin: updatedUser.isAdmin,
+				token: token(updatedUser._id),
+			});
+		} else {
+			res.status(401).json({
+				message: "No user found",
+			});
+		}
+	} catch (error) {
+		res.status(500).json({ message: "Server Error" });
+	}
+};
+
 export const registerUser = async (req, res) => {
 	try {
 		const { name, email, password } = req.body;

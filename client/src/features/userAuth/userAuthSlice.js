@@ -55,6 +55,75 @@ export const userRegister = createAsyncThunk(
 	}
 );
 
+export const getUserDetails = createAsyncThunk(
+	"userAuth/getUserDetails",
+	async (id, { getState, rejectWithValue }) => {
+		try {
+			const {
+				userAuth: { userInfo },
+			} = getState();
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			};
+
+			const { data } = await axios.get(
+				`/api/users/${id}`,
+
+				config
+			);
+
+			return data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message
+			);
+		}
+	}
+);
+
+export const updateUserDetails = createAsyncThunk(
+	"userAuth/updateUserDetails",
+	async ({ id, name, email, password }, { getState, rejectWithValue }) => {
+		try {
+			const {
+				userAuth: { userInfo },
+			} = getState();
+			const config = {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${userInfo.token}`,
+				},
+			};
+
+			const userDetails = {
+				id,
+				name,
+				email,
+				password,
+			};
+
+			const { data } = await axios.put(
+				"/api/users/profile",
+				userDetails,
+				config
+			);
+
+			return data;
+		} catch (error) {
+			return rejectWithValue(
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message
+			);
+		}
+	}
+);
+
 const userInfoFromStorage = localStorage.getItem("userInfo")
 	? JSON.parse(localStorage.getItem("userInfo"))
 	: null;
@@ -64,12 +133,16 @@ const userAuth = createSlice({
 	initialState: {
 		loading: false,
 		userInfo: userInfoFromStorage,
+		user: {},
 		error: "",
+		success: false,
 	},
 	reducers: {
 		userLogout: (state) => {
 			localStorage.removeItem("userInfo");
 			state.userInfo = null;
+			state.user = {};
+			state.success = false;
 		},
 	},
 	extraReducers: {
@@ -89,6 +162,7 @@ const userAuth = createSlice({
 			state.loading = false;
 			state.error = action.payload;
 		},
+
 		[userRegister.pending]: (state) => {
 			state.loading = true;
 			state.error = "";
@@ -104,6 +178,42 @@ const userAuth = createSlice({
 		[userRegister.rejected]: (state, action) => {
 			state.loading = false;
 			state.error = action.payload;
+		},
+
+		[getUserDetails.pending]: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+
+		[getUserDetails.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.user = action.payload;
+			state.error = "";
+		},
+
+		[getUserDetails.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+		},
+
+		[updateUserDetails.pending]: (state) => {
+			state.loading = true;
+			state.error = "";
+			state.user = {};
+			state.success = false;
+		},
+
+		[updateUserDetails.fulfilled]: (state, action) => {
+			state.loading = false;
+			state.userInfo = action.payload;
+			state.success = true;
+			state.error = "";
+		},
+
+		[updateUserDetails.rejected]: (state, action) => {
+			state.loading = false;
+			state.error = action.payload;
+			state.success = false;
 		},
 	},
 });

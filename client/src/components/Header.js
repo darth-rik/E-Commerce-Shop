@@ -37,7 +37,10 @@ const Header = () => {
 							</LinkContainer>
 							{userInfo ? (
 								<NavDropdown
-									title={`Hello,${userInfo.name.split(" ").slice(0, 1).join()}`}
+									title={`Hello, ${userInfo.name
+										.split(" ")
+										.slice(0, 1)
+										.join()}`}
 								>
 									<LinkContainer to='/profile'>
 										<NavDropdown.Item>Profile</NavDropdown.Item>
