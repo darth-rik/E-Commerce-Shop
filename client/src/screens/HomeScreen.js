@@ -35,6 +35,7 @@ const HomeScreen = () => {
 				)}
 				<Link className='my-4' to='/products?category=all'>
 					<Button size='lg' variant='outline-secondary'>
+						
 						See More Products
 					</Button>
 				</Link>

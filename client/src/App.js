@@ -12,26 +12,28 @@ import ProfileScreen from "./screens/ProfileScreen";
 import ShippingScreen from "./screens/ShippingScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import OrderScreen from "./screens/OrderScreen";
 
 const App = () => {
-	return (
-		<Router>
-			<Header />
-			<main>
-				<Route exact path='/login' component={LoginScreen} />
-				<Route exact path='/register' component={RegisterScreen} />
-				<Route exact path='/' component={HomeScreen} />
-				<Route exact path='/profile' component={ProfileScreen} />
-				<Route exact path='/shipping' component={ShippingScreen} />
-				<Route exact path='/payment' component={PaymentScreen} />
-				<Route exact path='/placeorder' component={PlaceOrderScreen} />
-				<Route exact path='/products' component={AllProductsScreen} />
-				<Route path='/product/:id' component={ProductScreen} />
-				<Route path='/cart/:id?' component={CartScreen} />
-			</main>
-			<Footer />
-		</Router>
-	);
+  return (
+    <Router>
+      <Header />
+      <main>
+        <Route exact path="/login" component={LoginScreen} />
+        <Route exact path="/register" component={RegisterScreen} />
+        <Route exact path="/" component={HomeScreen} />
+        <Route exact path="/profile" component={ProfileScreen} />
+        <Route exact path="/shipping" component={ShippingScreen} />
+        <Route exact path="/payment" component={PaymentScreen} />
+        <Route exact path="/placeorder" component={PlaceOrderScreen} />
+        <Route exact path="/order/:id" component={OrderScreen} />
+        <Route exact path="/products" component={AllProductsScreen} />
+        <Route path="/product/:id" component={ProductScreen} />
+        <Route path="/cart/:id?" component={CartScreen} />
+      </main>
+      <Footer />
+    </Router>
+  );
 };
 
 export default App;
