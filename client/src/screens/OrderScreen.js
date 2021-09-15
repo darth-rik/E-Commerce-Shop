@@ -15,16 +15,40 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
 import { getOrders } from "../features/orderItems/ordersSlice";
+import axios from "axios";
+import store from "../store";
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
   const dispatch = useDispatch();
   const orderId = match.params.id;
 
   const { orderDetails, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    if (!orderDetails) dispatch(getOrders(orderId));
-  }, [orderId, dispatch, orderDetails]);
+    dispatch(getOrders(orderId));
+  }, [orderId, dispatch]);
+
+  const makePayment = async () => {
+    const {
+      userAuth: { userInfo },
+    } = store.getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(
+      `/api/payments/checkout-session/${orderDetails._id}`,
+      config
+    );
+
+    if (data.success) {
+      window.location.href = `${data.session.url}`;
+    }
+  };
 
   return (
     <Container className="my-5">
@@ -141,7 +165,11 @@ const OrderScreen = ({ match }) => {
                   <ListGroup.Item>
                     {error && <Message variant="danger">{error}</Message>}
                   </ListGroup.Item>
-                  <ListGroup.Item></ListGroup.Item>
+                  <ListGroup.Item>
+                    <Button onClick={makePayment} className="btn-block w-100">
+                      Make Payment
+                    </Button>
+                  </ListGroup.Item>
                 </ListGroup>
               </Card>
             </Col>
