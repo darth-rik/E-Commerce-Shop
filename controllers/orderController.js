@@ -78,3 +78,12 @@ export const updateOrderToPaid = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+export const getMyOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ user: req.user.id });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};

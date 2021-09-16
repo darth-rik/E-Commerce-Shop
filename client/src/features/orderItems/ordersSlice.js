@@ -85,6 +85,34 @@ export const getUpdatedOrder = createAsyncThunk(
   }
 );
 
+export const getOrderList = createAsyncThunk(
+  "orders/getOrderList",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const {
+        userAuth: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.get(`/api/orders/myorders`, config);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      );
+    }
+  }
+);
+
 const ordersSlice = createSlice({
   name: "orders",
   initialState: {
@@ -93,6 +121,7 @@ const ordersSlice = createSlice({
     orderItems: {},
     error: "",
     orderDetails: null,
+    orderList: [],
   },
 
   reducers: {},
@@ -137,6 +166,18 @@ const ordersSlice = createSlice({
     [getUpdatedOrder.rejected]: (state, action) => {
       state.loading = false;
       state.orderDetails = null;
+      state.error = action.payload;
+    },
+
+    [getOrderList.pending]: (state) => {
+      state.loading = true;
+    },
+    [getOrderList.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.orderList = action.payload;
+    },
+    [getOrderList.rejected]: (state, action) => {
+      state.loading = false;
       state.error = action.payload;
     },
   },
