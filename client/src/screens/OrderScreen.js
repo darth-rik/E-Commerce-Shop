@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
-import { getOrders } from "../features/orderItems/ordersSlice";
+import { getOrders, getUpdatedOrder } from "../features/orderItems/ordersSlice";
 import axios from "axios";
 import store from "../store";
 
@@ -25,28 +25,38 @@ const OrderScreen = ({ match, history }) => {
   const { orderDetails, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    dispatch(getOrders(orderId));
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get("success")) {
+      dispatch(getUpdatedOrder(orderId));
+    } else {
+      dispatch(getOrders(orderId));
+    }
   }, [orderId, dispatch]);
 
   const makePayment = async () => {
-    const {
-      userAuth: { userInfo },
-    } = store.getState();
+    if (orderDetails?.paymentMethod === "Stripe") {
+      const {
+        userAuth: { userInfo },
+      } = store.getState();
 
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
 
-    const { data } = await axios.get(
-      `/api/payments/checkout-session/${orderDetails._id}`,
-      config
-    );
+      const { data } = await axios.get(
+        `/api/payments/checkout-session/${orderDetails._id}`,
+        config
+      );
 
-    if (data.success) {
-      window.location.href = `${data.session.url}`;
+      if (data.success) {
+        window.location.href = `${data.session.url}`;
+      }
+    } else {
+      dispatch(getUpdatedOrder(orderId));
     }
   };
 
@@ -158,6 +168,12 @@ const OrderScreen = ({ match, history }) => {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
+                      <Col>Shipping</Col>
+                      <Col>${orderDetails?.shippingPrice}</Col>
+                    </Row>
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <Row>
                       <Col>Total</Col>
                       <Col>${orderDetails?.totalPrice}</Col>
                     </Row>
@@ -165,8 +181,13 @@ const OrderScreen = ({ match, history }) => {
                   <ListGroup.Item>
                     {error && <Message variant="danger">{error}</Message>}
                   </ListGroup.Item>
+
                   <ListGroup.Item>
-                    <Button onClick={makePayment} className="btn-block w-100">
+                    <Button
+                      disabled={orderDetails?.isPaid}
+                      onClick={makePayment}
+                      className="btn-block w-100"
+                    >
                       Make Payment
                     </Button>
                   </ListGroup.Item>

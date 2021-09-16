@@ -52,6 +52,7 @@ const PlaceOrderScreen = ({ history }) => {
         itemsPrice,
         taxPrice,
         totalPrice,
+        shippingPrice,
       })
     );
   };

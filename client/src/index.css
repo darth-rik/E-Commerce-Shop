@@ -15,11 +15,6 @@ a {
   margin: 0.1rem;
 }
 
-/* .list-group-item {
-	background-color: transparent;
-	border: none;
-} */
-
 /* carousel */
 .carousel-item-next,
 .carousel-item-prev,
@@ -43,6 +38,11 @@ a {
 
 .carousel-caption h1 {
   font-size: 4rem;
+}
+
+.carousel-text > * {
+  background-color: transparent;
+  border: none;
 }
 
 @media screen and (max-width: 800px) {
