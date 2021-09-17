@@ -22,11 +22,12 @@ export const getCheckoutSession = async (req, res) => {
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      success_url: `${req.protocol}://${req.hostname}:3000/order/${order._id}?success=true`,
-      cancel_url: `${req.protocol}://${req.hostname}:3000/order/${order._id}?cancelled=true`,
+      success_url: `${req.protocol}://${req.hostname}:3000/order/${order._id}`,
+      cancel_url: `${req.protocol}://${req.hostname}:3000/order/${order._id}`,
 
       mode: "payment",
       customer_email: order.user.email,
+      client_reference_id: req.params.orderId,
 
       line_items: order.orderItems.map((item) => ({
         price_data: {

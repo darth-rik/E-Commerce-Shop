@@ -18,20 +18,14 @@ import { getOrders, getUpdatedOrder } from "../features/orderItems/ordersSlice";
 import axios from "axios";
 import store from "../store";
 
-const OrderScreen = ({ match, history }) => {
+const OrderScreen = ({ match }) => {
   const dispatch = useDispatch();
   const orderId = match.params.id;
 
   const { orderDetails, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
-    if (query.get("success")) {
-      dispatch(getUpdatedOrder(orderId));
-    } else {
-      dispatch(getOrders(orderId));
-    }
+    dispatch(getOrders(orderId));
   }, [orderId, dispatch]);
 
   const makePayment = async () => {

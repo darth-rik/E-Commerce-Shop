@@ -5,12 +5,19 @@ import productRoutes from "./routes/productRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import handleCheckoutInfo from "./controllers/webhooksController.js";
 import cors from "cors";
 
 dotenv.config();
 connectDB();
 
 const app = express();
+
+app.post(
+  "/webhooks-checkout",
+  express.raw({ type: "application/json" }),
+  handleCheckoutInfo
+);
 
 app.use(express.json());
 app.use(cors());
@@ -27,9 +34,9 @@ app.options("*", cors());
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello World");
+// });
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
