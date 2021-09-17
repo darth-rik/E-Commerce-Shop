@@ -28,7 +28,7 @@ const PlaceOrderScreen = ({ history }) => {
   const itemsPrice = parseFloat(
     cartItems.reduce((acc, item) => acc + item.price * item.qty, 0).toFixed(2)
   );
-  const shippingPrice = itemsPrice > 50 ? 0 : 100;
+  const shippingPrice = itemsPrice > 50 ? 0 : 10;
 
   const taxPrice = parseFloat((0.1 * itemsPrice).toFixed(2));
 

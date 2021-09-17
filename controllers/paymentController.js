@@ -13,10 +13,13 @@ export const getCheckoutSession = async (req, res) => {
       "name email"
     );
     const url = req.header("Referer");
-    const shippingRate =
-      order.shippingPrice > 0.0
-        ? (order.shippingPrice / order.orderItems.length) * 100
-        : 0;
+
+    //Create Tax Rate
+    const taxRates = await stripe.taxRates.create({
+      display_name: "GST",
+      inclusive: false,
+      percentage: 10.0,
+    });
 
     //Create checkout session
 
@@ -28,14 +31,13 @@ export const getCheckoutSession = async (req, res) => {
       mode: "payment",
       customer_email: order.user.email,
       client_reference_id: req.params.orderId,
+      shipping_rates:
+        order.shippingPrice > 0 ? ["shr_1JajTaSCwGlhgct8kpwHTPtY"] : [],
 
       line_items: order.orderItems.map((item) => ({
         price_data: {
           currency: "usd",
-          unit_amount:
-            item.price * 100 +
-            (order.taxPrice / order.orderItems.length) * 100 +
-            shippingRate,
+          unit_amount: item.price * 100,
 
           product_data: {
             name: item.name,
@@ -43,6 +45,7 @@ export const getCheckoutSession = async (req, res) => {
           },
         },
         quantity: item.qty,
+        tax_rates: [`${taxRates.id}`],
       })),
     });
 
