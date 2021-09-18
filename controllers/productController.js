@@ -13,7 +13,7 @@ export const getProductsByCategory = async (req, res) => {
       : {};
 
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
+    const limit = Number(req.query.limit) || 4;
     const skip = (page - 1) * limit;
 
     let count;
@@ -33,7 +33,7 @@ export const getProductsByCategory = async (req, res) => {
     }
 
     if (skip >= count) {
-      throw new Error("No more products to show");
+      throw new Error("No products to show");
     }
 
     const pages = Math.ceil(count / limit);

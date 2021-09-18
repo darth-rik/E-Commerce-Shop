@@ -27,7 +27,11 @@ const App = () => {
         <Route exact path="/payment" component={PaymentScreen} />
         <Route exact path="/placeorder" component={PlaceOrderScreen} />
         <Route exact path="/order/:id" component={OrderScreen} />
-        <Route exact path="/products" component={AllProductsScreen} />
+        <Route
+          exact
+          path="/products/category/:category/page/:pageNumber/(search)?/:value?"
+          component={AllProductsScreen}
+        />
         <Route path="/product/:id" component={ProductScreen} />
         <Route path="/cart/:id?" component={CartScreen} />
       </main>
