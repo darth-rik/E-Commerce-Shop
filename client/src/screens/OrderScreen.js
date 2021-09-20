@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { getOrders, getUpdatedOrder } from "../features/orderItems/ordersSlice";
 import axios from "axios";
 import store from "../store";
+import { resetCart } from "../features/cart/cartSlice";
 
 const OrderScreen = ({ match }) => {
   const dispatch = useDispatch();
@@ -26,7 +27,10 @@ const OrderScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(getOrders(orderId));
-  }, [orderId, dispatch]);
+    if (orderDetails?.isPaid) {
+      dispatch(resetCart());
+    }
+  }, [orderId, dispatch, orderDetails?.isPaid]);
 
   const makePayment = async () => {
     if (orderDetails?.paymentMethod === "Stripe") {

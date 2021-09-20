@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 import ProductDetails from "../features/products/ProductDetails";
 import { Container } from "react-bootstrap";
+import BackButton from "../components/BackButton";
 
 const ProductScreen = ({ match, history }) => {
   const dispatch = useDispatch();
@@ -23,9 +24,7 @@ const ProductScreen = ({ match, history }) => {
 
   return (
     <Container>
-      <Link className="btn btn-dark my-3" to="/">
-        Go Back
-      </Link>
+      <BackButton history={history} />
       {loading ? (
         <Loader />
       ) : error ? (
