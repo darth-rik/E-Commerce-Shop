@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
@@ -15,26 +15,10 @@ import {
 import { addItemsToCart, removeItem } from "../features/cart/cartSlice";
 import BackButton from "../components/BackButton";
 
-const CartScreen = ({ match, location, history }) => {
-  const productId = match.params.id;
-
-  const qty = Number(new URLSearchParams(location.search).get("qty"));
-
+const CartScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const { cartItems } = useSelector((state) => state.cart);
-
-  useEffect(() => {
-    if (productId) {
-      dispatch(
-        addItemsToCart({
-          productId,
-          qty,
-        })
-      );
-    }
-    // history.push("/cart");
-  }, [dispatch, productId, qty, history]);
 
   const checkOut = () => {
     history.push("/login?redirect=shipping");

@@ -9,16 +9,17 @@ import {
   Button,
   Form,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Message from "../../components/Message";
 import Rating from "../../components/Rating";
 import { createProductReview } from "./productDetailsSlice";
+import { addItemsToCart } from "../cart/cartSlice";
 
-const ProductDetails = ({ product, history, id, userInfo, success, error }) => {
-  const [qty, setQty] = useState(1);
+const ProductDetails = ({ product, id, userInfo, success, error }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
+  const [itemAdded, setItemAdded] = useState(false);
 
   useEffect(() => {
     if (success) {
@@ -29,8 +30,16 @@ const ProductDetails = ({ product, history, id, userInfo, success, error }) => {
 
   const dispatch = useDispatch();
 
+  const { cartItems } = useSelector((state) => state.cart);
+
   const addToCart = () => {
-    history.push(`/cart/${id}?qty=${qty}`);
+    dispatch(
+      addItemsToCart({
+        productId: id,
+        qty: 1,
+      })
+    );
+    setItemAdded(true);
   };
 
   const submit = (e) => {
@@ -88,7 +97,7 @@ const ProductDetails = ({ product, history, id, userInfo, success, error }) => {
                 </Row>
               </ListGroup.Item>
 
-              {product.countInStock > 0 && (
+              {/* {product.countInStock > 0 && (
                 <ListGroup.Item>
                   <Row>
                     <Col>Qty:</Col>
@@ -106,16 +115,30 @@ const ProductDetails = ({ product, history, id, userInfo, success, error }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-              )}
+              )} */}
               <ListGroup.Item className="d-grid gap-2">
-                <Button
-                  onClick={addToCart}
-                  type="button"
-                  disabled={product.countInStock === 0}
-                >
-                  Add To Cart
-                </Button>
+                {cartItems.some((item) => item.product === id) ? (
+                  <Link to="/cart">
+                    {" "}
+                    <Button className="w-100" type="button">
+                      Go to Cart
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    onClick={addToCart}
+                    type="button"
+                    disabled={product.countInStock === 0}
+                  >
+                    Add to Cart
+                  </Button>
+                )}
               </ListGroup.Item>
+              {itemAdded && (
+                <ListGroup.Item>
+                  <Message variant="success">Item added to cart!</Message>
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
