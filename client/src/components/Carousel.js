@@ -1,8 +1,8 @@
 import React from "react";
 import { Carousel, ListGroup, Button, Image } from "react-bootstrap";
-import Men from "../images/mens_ad.jpg";
-import Women from "../images/women's_ad.jpg";
-import Elec from "../images/electronics_ad.jpg";
+import Men from "../images/mens_ad-min.jpg";
+import Women from "../images/women's_ad-min.jpg";
+import Elec from "../images/electronics_ad-min.jpg";
 
 import { Link } from "react-router-dom";
 
