@@ -13,6 +13,7 @@ import {
   Container,
 } from "react-bootstrap";
 import { addItemsToCart, removeItem } from "../features/cart/cartSlice";
+import BackButton from "../components/BackButton";
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
@@ -32,7 +33,7 @@ const CartScreen = ({ match, location, history }) => {
         })
       );
     }
-    history.push("/cart");
+    // history.push("/cart");
   }, [dispatch, productId, qty, history]);
 
   const checkOut = () => {
@@ -41,13 +42,12 @@ const CartScreen = ({ match, location, history }) => {
 
   return (
     <Container className="mt-4">
+      <BackButton history={history} />
       <Row>
         <Col md={8}>
           <h1 className="my-4">Shopping Cart</h1>
           {cartItems.length === 0 ? (
-            <Message>
-              Your cart is empty <Link to="/">Go Back</Link>
-            </Message>
+            <Message>Your cart is empty</Message>
           ) : (
             <ListGroup variant="flush">
               {cartItems.map((item) => (
