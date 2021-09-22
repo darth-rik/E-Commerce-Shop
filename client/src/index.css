@@ -128,3 +128,9 @@ a {
     height: 30%;
   }
 }
+
+@media only screen and (max-width: 780px) {
+  .btn-show-products {
+    width: 100%;
+  }
+}

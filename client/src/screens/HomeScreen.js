@@ -34,7 +34,11 @@ const HomeScreen = () => {
           <ProductList products={topProducts} />
         )}
         <Link className="my-4" to="/products/category/all/page/1">
-          <Button size="lg" variant="outline-secondary">
+          <Button
+            size="lg"
+            variant="outline-secondary"
+            className="btn-show-products"
+          >
             See More Products
           </Button>
         </Link>
