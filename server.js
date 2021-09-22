@@ -14,6 +14,8 @@ connectDB();
 
 const app = express();
 
+app.enable("trust proxy");
+
 app.post(
   "/webhooks-checkout",
   express.raw({ type: "application/json" }),
